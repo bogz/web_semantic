@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function testFunction() {
+            axios({
+                url: "http://localhost:5000/backend",
+                method: "POST",
+                data: {
+                    query: `{
+  allSongs {
+    name
+    artist
+    id
+    isHit
+    isSingle
+  }
+                    }`
+                }
+            }).then(result => {
+                console.log(result.data)
+            }).catch(error => {
+                console.error(error)
+            })
+        }
+    </script>
+</head>
+<body>
+<button onclick="testFunction()">Click me!</button>
+</body>
+</html>
