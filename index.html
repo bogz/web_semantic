@@ -2,33 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-        function testFunction() {
-            axios({
-                url: "http://localhost:5000/backend",
-                method: "POST",
-                data: {
-                    query: `{
-  allSongs {
-    name
-    artist
-    id
-    isHit
-    isSingle
-  }
-                    }`
-                }
-            }).then(result => {
-                console.log(result.data)
-            }).catch(error => {
-                console.error(error)
-            })
-        }
-    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Music to my ears</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
 </head>
 <body>
-<button onclick="testFunction()">Click me!</button>
+<main>
+    <header>
+        <span>
+            <h1 style="color: #cc241d; text-shadow: 2px 2px 8px; float:right; width: 60%; text-align: left;">Music to my ears </h1>
+            <button class="catButton" type="button" onclick="showCategories()"><span> Categories </span></button>
+            </span>
+    </header>
+
+    <nav id="Categories"></nav>
+
+    <article id="Content"></article>
+
+    <footer>
+
+        <div id="footer">
+            <form id="insertPlayForm" method="POST">
+
+                <div id="insert-fields">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> <b> Name: </b> </label>
+                        <div class="col-sm-5">
+                            <label>
+                                <input type="text" class="form-control form-control-sm" name="title"/>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> <b> Artist: </b> </label>
+                        <div class="col-sm-5">
+                            <label>
+                                <input type="text" class="form-control form-control-sm" name="description"/>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> <b> Duration: </b> </label>
+                        <div class="col-sm-2">
+                            <label>
+                                <input type="text" class="form-control form-control-sm" name="description"/>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-check-inline">
+                        <label class="form-check-label"> <b> Hit: </b>
+                            <input type="radio" class="form-check-input" name="option"> Yes
+                            <input type="radio" class="form-check-input" name="option"> No
+                        </label>
+                    </div>
+
+                    <div class="form-check-inline">
+                        <label class="form-check-label"> <b> Single: </b>
+                            <input type="radio" class="form-check-input" name="option"> Yes
+                            <input type="radio" class="form-check-input" name="option"> No
+                        </label>
+                    </div>
+                </div>
+
+                <div id="insert_div_button">
+                    <button class="insertButton" type="button" onmouseover="insertEntry(event)">
+                        <span> Add new entry </span>
+                    </button>
+                </div>
+
+
+            </form>
+        </div>
+    </footer>
+
+
+</main>
 </body>
 </html>
