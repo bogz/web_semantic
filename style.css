@@ -92,7 +92,7 @@ footer {
     right: 0;
 }
 
-.butonStergere {
+.delete-button {
     display: inline-block;
     border-radius: 4px;
     background-color: #cc241d;
@@ -108,39 +108,40 @@ footer {
     margin: 5px;
 }
 
-.detalii-eveniment {
+.song-details {
     display: flex;
     align-items: center;
     max-height: 300px;
+    background-color: white;
 }
 
-.titlu-stergere {
+.delete-title {
     display: flex;
     flex-direction: column;
     align-items: center;
     word-wrap: break-word;
 }
 
-.poza-campuri {
+.fields-photo {
     display: flex;
     align-items: center;
 }
 
-.imagine-eveniment {
+.song-photo {
     width: 100px;
     height: 100px;
 }
 
-.campuri {
+.fields {
     padding: 10px;
 }
 
-#continut {
+#content {
     height: 400px;
     overflow-y:scroll;
 }
 
-#categorii {
+#categories {
     height: 400px;
 }
 

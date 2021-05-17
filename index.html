@@ -6,20 +6,136 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Music to my ears</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+    <script type="text/javascript">
+        let data = [];
+        let currentGenre;
+
+        window.addEventListener('load', function () {
+            axios({
+                url: "http://localhost:5000/backend-query",
+                method: "POST",
+                data: {
+                    query: `{
+                          allGenres {
+                            name
+                            id
+                            Songs {
+                                id
+                                name
+                                isHit
+                                artist
+                                duration
+                                photo
+                            }
+                          }
+                        }`
+                }
+            }).then(result => {
+                console.log(result.data);
+                data = result.data.allGenres; // obtinem toate datele - le stocam in datata
+
+                const categoriesNav = document.getElementById('categories'); // constanta nav verde
+                const ul = document.createElement('ul'); //lista care trebuie afisata
+
+                //populare lista
+                categoriesNav.innerHTML = '';
+                categoriesNav.appendChild(ul);
+
+                //creem ul dinamic - populare lista
+
+                data.forEach(dataItem => {
+                    const li = document.createElement('li');
+
+                    li.style.padding = '10px';
+                    li.innerHTML = "<a href='#' onclick='showSongs(event)'>" + dataItem.name + "</a>" +
+                        ul.appendChild(li);
+                })
+
+            }).catch(error => {
+                console.error(error)
+            })
+        })
+
+        function showSongs(event) {
+            currentGenre = event.target.text;
+            const songs = data.filter(dataItem => dataItem.name === currentGenre)[0].Songs;
+            console.log('Songs', songs);
+
+            const content = document.getElementById('content');
+            const ul = document.createElement('ul');
+
+            content.innerHTML = '';
+            content.appendChild(ul);
+
+            songs.forEach(song => {
+                const isHit = song.isHit ? 'Yes' : 'No';
+                const isSingle = song.isSingle ? 'Yes' : 'No';
+
+                const li = document.createElement('li');
+                li.innerHTML =
+                    "<div class='song-details' style='padding: 10px;'>" +
+                        "<div class='delete-title' style='width: 200px'>" +
+                            "<p style='text-shadow: 2px 2px 8px; font-size: 20px;'  > <b>" + song.name  + " </b> </p>" +
+                            "<button class='delete-button' id='" + song.id + "' onclick='deleteSong(event)'> Delete </button>" +
+                        "</div>" +
+                        "<div class='fields-photo' style='padding: 20px;'>" +
+                            "<div>" +
+                                "<img src='" + song.photo + "' class='song-photo' onerror=\"this.onerror=null; this.src='no.jpg'\"/>" +
+                            "</div>" +
+                            "<div class='fields'>" +
+                                "<p> <b> Artist: </b>" + song.artist + "</p>" +
+                                "<p> <b> Duration: </b>" + song.duration + " minutes</p>" +
+                                "<p> <b> Hit: </b>" + isHit + "</p>" +
+                                "<p> <b> Single: </b>" + isSingle + "</p>" +
+                            "</div>" +
+                        "</div>" +
+                    "</div>"
+
+                ul.appendChild(li);
+            })
+        }
+
+        function deleteSong(event) {
+            const songIdToDelete = event.target.id;
+            axios({
+                url: "http://localhost:5000/backend-mutation",
+                method: "POST",
+                data: {
+                    query: `{
+                          allGenres {
+                            name
+                            }
+                          }`,
+                    mutation: `{
+                                    mutation {
+                                        removeSong(id:${songIdToDelete}) {
+                                            name
+                                        }
+                                    }
+                            }`
+                }
+            }).then(result => {
+                console.log(`Song with id ${songIdToDelete} deleted`);
+            }).catch(err => {
+                console.error(err);
+            })
+        }
+    </script>
 </head>
 <body>
 <main>
     <header>
         <span>
             <h1 style="color: #cc241d; text-shadow: 2px 2px 8px; float:right; width: 60%; text-align: left;">Music to my ears </h1>
-            <button class="catButton" type="button" onclick="showCategories()"><span> Categories </span></button>
+            <button class="catButton" type="button" onclick="showCategories()"><span> Music Genres </span></button>
             </span>
     </header>
 
-    <nav id="Categories"></nav>
+    <nav id="categories"></nav>
 
-    <article id="Content"></article>
+    <article id="content"></article>
 
     <footer>
 

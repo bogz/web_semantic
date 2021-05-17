@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
-app.post('/backend', async (req, res) => {
+app.post('/backend-query', async (req, res) => {
     const response = await axios({
         url: 'http://localhost:3000',
         method: 'POST',
@@ -27,6 +27,20 @@ app.post('/backend', async (req, res) => {
     }
 })
 
+app.post('/backend-mutation', async (req, res) => {
+    const response = await axios({
+        url: 'http://localhost:3000',
+        method: 'POST',
+        data: {mutation: req.body.mutation.toString(), query: req.body.query.toString()}
+    })
+
+    if (response.status === 200) {
+        res.status(200).send(JSON.stringify(response.data.data));
+    } else {
+        res.sendStatus(500)
+    }
+})
+
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`Music app listening at http://localhost:${port}`)
 })
