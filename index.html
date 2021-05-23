@@ -32,8 +32,8 @@
 
                         li.style.padding = '10px';
                         li.innerHTML = "<a href='#' id='" + dataItem.name + "-genre' " +
-                            "onclick='showSongs(event)'>" + dataItem.name + "</a>" +
-                            ul.appendChild(li);
+                            "onclick='showSongs(event)'>" + dataItem.name + "</a>";
+                        ul.appendChild(li);
                     })
                 }).catch(error => {
                     console.error(error)
@@ -96,7 +96,7 @@
                     "</div>" +
                     "<div class='fields-photo' style='padding: 20px;'>" +
                     "<div>" +
-                    "<img src='" + song.photo + "' class='song-photo' onerror=\"this.onerror=null; this.src='no.jpg'\"/>" +
+                    "<img src='" + song.photo + "' class='song-photo' onerror=\"this.onerror=null; this.src='images/no.jpg'\"/>" +
                     "</div>" +
                     "<div class='fields'>" +
                     "<p> <b> Artist: </b>" + song.artist + "</p>" +
@@ -226,12 +226,9 @@
                     </button>
                 </div>
 
-
             </form>
         </div>
     </footer>
-
-
 </main>
 </body>
 </html>

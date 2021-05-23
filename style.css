@@ -1,19 +1,20 @@
 main {
-    display:grid;
+    display: grid;
     grid-template-areas:
     "topBar topBar topBar"
     "menu content content"
     "footer footer footer";
-    grid-template-columns:200px;
-    grid-auto-rows: minmax(50px, auto);
-    grid-gap:10px;
+    grid-template-columns: 300px;
+    grid-auto-rows: minmax(200px, auto);
+    grid-gap: 10px;
 }
 
 body {
+    font-family: Times New Roman, sans-serif;
     background-image: url('images/background.jpg');
     background-repeat: no-repeat;
-    font-family: Times New Roman, sans-serif;
-
+    background-attachment: fixed;
+    background-size: 100% 100%;
 }
 
 header {
@@ -25,7 +26,7 @@ header {
 .header-text {
     color: #cc241d;
     text-shadow: 2px 2px 8px;
-    float:right;
+    float: right;
     width: 60%;
     text-align: left;
 }
@@ -54,8 +55,10 @@ footer {
     grid-area : footer;
     height: 215px;
     margin-left: 5px;
-    background: rgba(250, 189, 47, 0.7)
-
+    background: rgba(250, 189, 47, 0.7);
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 .catButton {
@@ -145,13 +148,13 @@ footer {
 }
 
 #content {
-    height: 400px;
+    height: 100%;
     width: 1000px;
-    overflow-y:scroll;
+    overflow-y: scroll;
 }
 
 #categories {
-    height: 400px;
+    height: 100%;
 }
 
 li {
