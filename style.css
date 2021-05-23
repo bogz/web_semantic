@@ -22,6 +22,14 @@ header {
     height : 85px;
 }
 
+.header-text {
+    color: #cc241d;
+    text-shadow: 2px 2px 8px;
+    float:right;
+    width: 60%;
+    text-align: left;
+}
+
 nav {
     border : none;
     border-radius: 10px;

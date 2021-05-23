@@ -9,11 +9,12 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script type="text/javascript">
+        const BACKEND_URL = 'http://localhost:5000'
         let data = [];
         let currentGenre;
 
         function loadData() {
-            axios.get('http://localhost:5000/get-data')
+            axios.get(`${BACKEND_URL}/get-data`)
                 .then(result => {
                     data = result.data.allGenres; // obtinem toate datele - le stocam in data
 
@@ -40,7 +41,7 @@
         }
 
         function reloadData() {
-            axios.get('http://localhost:5000/get-data')
+            axios.get(`${BACKEND_URL}/get-data`)
                 .then(result => {
                     data = result.data.allGenres; // obtinem toate datele - le stocam in data
 
@@ -112,7 +113,7 @@
 
         function deleteSong(event) {
             const songIdToDelete = event.target.id;
-            axios.delete("http://localhost:5000/delete-song", {
+            axios.delete(`${BACKEND_URL}/delete-song`, {
                 data: {
                     songId: songIdToDelete
                 }
@@ -123,15 +124,48 @@
                 console.error(err);
             })
         }
+
+        function addSong(event) {
+            if (currentGenre) {
+                const name = document.getElementById('input-name').value;
+                const artist = document.getElementById('input-artist').value;
+                const duration = document.getElementById('input-duration').value;
+                const isHit = Array.from(document.getElementsByName('option-hit')).find(r => r.checked).value === 'yes';
+                const isSingle = Array.from(document.getElementsByName('option-single')).find(r => r.checked).value === 'yes';
+
+                if (name && artist && duration && isHit !== undefined && isSingle !== undefined) {
+                    const data = {
+                        name: name,
+                        artist: artist,
+                        duration: duration,
+                        isHit: isHit,
+                        isSingle: isSingle,
+                        genreName: currentGenre
+                    }
+
+                    axios.post(`${BACKEND_URL}/add-song`, {
+                        data: data
+                    }).then(result => {
+                        reloadData();
+                    }).catch(err => {
+                        console.error(err);
+                    })
+                } else {
+                    alert('Please complete all fields')
+                }
+            } else {
+                alert('Select a genre!');
+            }
+        }
     </script>
 </head>
 <body>
 <main>
     <header>
         <span>
-            <h1 style="color: #cc241d; text-shadow: 2px 2px 8px; float:right; width: 60%; text-align: left;">Music to my ears </h1>
+            <h1 class="header-text"> Music to my ears </h1>
             <button class="catButton" type="button" onclick="loadData()"><span> Music Genres </span></button>
-            </span>
+        </span>
     </header>
 
     <nav id="categories"></nav>
@@ -141,14 +175,14 @@
     <footer>
 
         <div id="footer">
-            <form id="insertPlayForm" method="POST">
+            <form id="insertSongForm" name="insertSongForm" method="POST">
 
                 <div id="insert-fields">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label"> <b> Name: </b> </label>
                         <div class="col-sm-5">
                             <label>
-                                <input type="text" class="form-control form-control-sm" name="title"/>
+                                <input id="input-name" type="text" class="form-control form-control-sm" name="name"/>
                             </label>
                         </div>
                     </div>
@@ -157,7 +191,7 @@
                         <label class="col-sm-2 col-form-label"> <b> Artist: </b> </label>
                         <div class="col-sm-5">
                             <label>
-                                <input type="text" class="form-control form-control-sm" name="description"/>
+                                <input id="input-artist" type="text" class="form-control form-control-sm" name="artist"/>
                             </label>
                         </div>
                     </div>
@@ -166,28 +200,28 @@
                         <label class="col-sm-2 col-form-label"> <b> Duration: </b> </label>
                         <div class="col-sm-2">
                             <label>
-                                <input type="text" class="form-control form-control-sm" name="description"/>
+                                <input id="input-duration" type="text" class="form-control form-control-sm" name="duration"/>
                             </label>
                         </div>
                     </div>
 
                     <div class="form-check-inline">
                         <label class="form-check-label"> <b> Hit: </b>
-                            <input type="radio" class="form-check-input" name="option"> Yes
-                            <input type="radio" class="form-check-input" name="option"> No
+                            <input id="yes-hit" type="radio" class="form-check-input" name="option-hit" value="yes"> Yes
+                            <input id="no-hit" type="radio" class="form-check-input" name="option-hit" value="no"> No
                         </label>
                     </div>
 
                     <div class="form-check-inline">
                         <label class="form-check-label"> <b> Single: </b>
-                            <input type="radio" class="form-check-input" name="option"> Yes
-                            <input type="radio" class="form-check-input" name="option"> No
+                            <input id="yes-single" type="radio" class="form-check-input" name="option-single" value="yes"> Yes
+                            <input id="no-single" type="radio" class="form-check-input" name="option-single" value="no"> No
                         </label>
                     </div>
                 </div>
 
                 <div id="insert_div_button">
-                    <button class="insertButton" type="button" onmouseover="insertEntry(event)">
+                    <button class="insertButton" type="button" onmouseenter="addSong(event)">
                         <span> Add new entry </span>
                     </button>
                 </div>
