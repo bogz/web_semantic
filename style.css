@@ -138,6 +138,7 @@ footer {
 
 #content {
     height: 400px;
+    width: 1000px;
     overflow-y:scroll;
 }
 

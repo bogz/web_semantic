@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const axios = require('axios');
 const app = express()
 const port = 5000
+const URL = 'http://localhost:3000';
 
 // fix cors issue
 app.use(cors())
@@ -13,11 +14,25 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
-app.post('/backend-query', async (req, res) => {
+app.get('/get-data', async (req, res) => {
+    const query = `{
+                  allGenres {
+                    name
+                    id
+                    Songs {
+                        id
+                        name
+                        isHit
+                        artist
+                        duration
+                        photo
+                    }
+                  }
+              }`
     const response = await axios({
-        url: 'http://localhost:3000',
+        url: URL,
         method: 'POST',
-        data: {query: req.body.query.toString()}
+        data: {query: query}
     })
 
     if (response.status === 200) {
@@ -27,12 +42,19 @@ app.post('/backend-query', async (req, res) => {
     }
 })
 
-app.post('/backend-mutation', async (req, res) => {
+app.delete('/delete-song', async(req, res) => {
+    const songIdToDelete = Number(req.body.songId);
+    const mutation = `
+                        mutation {
+                            removeSong(id:${songIdToDelete}) {
+                                name
+                            }
+                        }`
     const response = await axios({
-        url: 'http://localhost:3000',
+        url: URL,
         method: 'POST',
-        data: {mutation: req.body.mutation.toString(), query: req.body.query.toString()}
-    })
+        data: {query: mutation}
+    });
 
     if (response.status === 200) {
         res.status(200).send(JSON.stringify(response.data.data));
