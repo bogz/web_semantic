@@ -5,7 +5,7 @@ main {
     "menu content content"
     "footer footer footer";
     grid-template-columns: 300px;
-    grid-auto-rows: minmax(200px, auto);
+    grid-auto-rows: minmax(150px, auto);
     grid-gap: 10px;
 }
 
@@ -56,7 +56,7 @@ footer {
     height: 215px;
     margin-left: 5px;
     background: rgba(250, 189, 47, 0.7);
-    position: absolute;
+    position: relative;
     bottom: 0;
     left: 0;
 }
@@ -127,14 +127,15 @@ footer {
 }
 
 .delete-title {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
-    align-items: center;
+    align-items: end;
     word-wrap: break-word;
+    width: 400px;
 }
 
 .fields-photo {
-    display: flex;
+    display: inline-flex;
     align-items: center;
 }
 

@@ -90,10 +90,6 @@
                 const li = document.createElement('li');
                 li.innerHTML =
                     "<div class='song-details' style='padding: 10px;'>" +
-                    "<div class='delete-title' style='width: 200px'>" +
-                    "<p style='text-shadow: 2px 2px 8px; font-size: 20px;'  > <b>" + song.name + " </b> </p>" +
-                    "<button class='delete-button' id='" + song.id + "' onclick='deleteSong(event)'> Delete </button>" +
-                    "</div>" +
                     "<div class='fields-photo' style='padding: 20px;'>" +
                     "<div>" +
                     "<img src='" + song.photo + "' class='song-photo' onerror=\"this.onerror=null; this.src='images/no.jpg'\"/>" +
@@ -103,6 +99,11 @@
                     "<p> <b> Duration: </b>" + song.duration + " minutes</p>" +
                     "<p> <b> Hit: </b>" + isHit + "</p>" +
                     "<p> <b> Single: </b>" + isSingle + "</p>" +
+                    "</div>" +
+
+                    "<div class='delete-title' style='width: 200px'>" +
+                    "<p style='text-shadow: 2px 2px 8px; font-size: 20px;'  > <b>" + song.name + " </b> </p>" +
+                    "<button class='delete-button' id='" + song.id + "' onclick='deleteSong(event)'> Delete </button>" +
                     "</div>" +
                     "</div>" +
                     "</div>"
@@ -130,8 +131,8 @@
                 const name = document.getElementById('input-name').value;
                 const artist = document.getElementById('input-artist').value;
                 const duration = document.getElementById('input-duration').value;
-                const isHit = Array.from(document.getElementsByName('option-hit')).find(r => r.checked).value === 'yes';
-                const isSingle = Array.from(document.getElementsByName('option-single')).find(r => r.checked).value === 'yes';
+                const isHit = Array.from(document.getElementsByName('option-hit')).find(r => r.checked)?.value === 'yes'
+                const isSingle = Array.from(document.getElementsByName('option-single')).find(r => r.checked)?.value === 'yes';
 
                 if (name && artist && duration && isHit !== undefined && isSingle !== undefined) {
                     const data = {
